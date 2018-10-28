@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>辩社登记-验证</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+        <script src="../static/js/mdui.min.js"></script>
+        <script src="../static/js/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/css/mdui.min.css">
+        <script>
+            function submit()
+            {
+                var number = $("#number").val();
+                var id = parseInt(number);
+                $.post('../check/', {'id':number}, function(data){
+                    if(data == 'fail')
+                    {
+                        alert('查询不到有关信息');
+                        return;
+                    }
+                    else
+                    {
+                        alert(data);
+                    }
+                });
+            }
+        </script>
+    </head>
+    <body class="mdui-theme-primary-indigo mdui-theme-accent-indigo">
+        <div class="mdui-container">
+            <h1>第二届南通中学南通一中辩论友谊赛</h1>
+            <h2>验证</h2>
+            <div id="textfield" class="mdui-textfield mdui-textfield-floating-label">
+                <i class="mdui-icon material-icons">info</i>
+                <label class="mdui-textfield-label">入场码</label>
+                <input class="mdui-textfield-input" type="text" id="number"/>
+                <div class="mdui-textfield-error" id="error"></div>
+            </div>
+            <div>
+                <button onclick="submit();" style="margin-top: 16px;margin-bottom: 8px" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-ripple">check</button>
+            </div>
+        </div>
+		<div class="mdui-typo-caption-opacity" style="text-align: center">@南通中学极客社 周子皓</div>
+    </body>
+</html>

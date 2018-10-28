@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title>辩社登记</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+        <script src="static/js/mdui.min.js"></script>
+        <script src="static/js/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="static/css/mdui.min.css">
+        <script>
+            function submit()
+            {
+                var name = $("#name").val();
+                var number = $("#number").val();
+                var id = parseInt(number);
+                var school = $('input:radio:checked').val();
+                if(id>=10000000 && id<=99999999){}
+                else if(id>=100000000 && id<=999999999){}
+                else
+                {
+                    $('#error').text('胸卡号为8位或9位');
+                    $('#textfield').addClass('mdui-textfield-invalid');
+                    mdui.updateTextFields()
+                    return;
+                }
+                $.post('submit/', {'name':name,'id':number,'school':school}, function(data){
+                    if(data == 'fail')
+                    {
+                        $('#error').text('该胸卡号已登记');
+                        $('#textfield').addClass('mdui-textfield-invalid');
+                        mdui.updateTextFields();
+                        return;
+                    }
+                    else
+                    {
+                        var inst = new mdui.Collapse('#collapse');
+                        $('#textfield').removeClass('mdui-textfield-invalid');
+                        $("#enter").text(data);
+                        inst.open(0);
+                    }
+                });
+            }
+        </script>
+    </head>
+    <body class="mdui-theme-primary-indigo mdui-theme-accent-indigo">
+        <div class="mdui-appbar">
+            <div class="mdui-toolbar mdui-color-theme">
+                <a href="javascript:;" class="mdui-typo-headline">第二届南通中学南通一中辩论友谊赛登记处</a>
+            </div>
+        </div>
+        <div class="mdui-container">
+            <div class="mdui-collapse" mdui-collapse id="collapse">
+                <div class="mdui-collapse-item">
+                    <div class="mdui-collapse-item-body">
+                        <p class="mdui-typo mdui-text-color-theme-accent">领票成功！入场码为：<span class="mdui-typo-display-1" id="enter"></span><br />请将该页面截图并在入场时出示给工作人员</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mdui-textfield mdui-textfield-floating-label">
+                <i class="mdui-icon material-icons">account_circle</i>
+                <label class="mdui-textfield-label">姓名</label>
+                <input class="mdui-textfield-input" type="text" required id="name"/>
+                <div class="mdui-textfield-error">姓名不能为空</div>
+            </div>
+            <div id="textfield" class="mdui-textfield mdui-textfield-floating-label">
+                <i class="mdui-icon material-icons">info</i>
+                <label class="mdui-textfield-label">胸卡号</label>
+                <input class="mdui-textfield-input" type="text" id="number"/>
+                <div class="mdui-textfield-error" id="error">胸卡号为8位或9位</div>
+            </div>
+            <form style="margin-top: 16px;padding-bottom: 8px">
+                <i class="mdui-icon material-icons" style="padding: 6px 6px 6px 6px">school</i>
+                学校：
+                <label class="mdui-radio" style="margin-right: 8px">
+                    <input type="radio" name="group1" id="tz" value="通中"/>
+                    <i class="mdui-radio-icon"></i>
+                    <span>通中</span>
+                </label>
+                <label class="mdui-radio" style="margin-right: 8px">
+                    <input type="radio" name="group1" id="yz" value="一中"/>
+                    <i class="mdui-radio-icon"></i>
+                    <span>一中</span>
+                </label>
+                <label class="mdui-radio" style="margin-right: 8px">
+                    <input type="radio" name="group1" id="tdfz" value="通大附中"/>
+                    <i class="mdui-radio-icon"></i>
+                    <span>通大附中</span>
+                </label>
+                <label class="mdui-radio" style="margin-right: 8px">
+                    <input type="radio" name="group1" id="txh" value="天星湖"/>
+                    <i class="mdui-radio-icon"></i>
+                    <span>天星湖</span>
+                </label>
+            </form>
+            <div>
+                <button onclick="submit();" style="margin-top: 16px;margin-bottom: 8px" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-ripple">提交</button>
+            </div>
+        </div>
+		<div class="mdui-typo-caption-opacity" style="text-align: center">@南通中学极客社 周子皓</div>
+    </body>
+</html>
